@@ -1,13 +1,14 @@
-# Brand Manifest Template
+# Brand Manifest
 
-Eine kleine, tool-agnostische Vorlage für ein Brand-Manifest-Repository. Die Vorlage trennt die **semantische Markenidentität** von den **normativen visuellen Werten**:
+A small, tool-agnostic template for a brand-manifest repository. It separates **semantic brand identity** from **normative visual values**:
 
-- `brand/brand.json` beschreibt, wer die Marke ist, wie sie spricht, welche Regeln gelten und welche Assets existieren.
-- `brand/tokens.tokens.json` enthält die visuellen Werte als W3C-DTCG-Design-Tokens.
-- `brand/DESIGN.md` liefert menschlich und für AI lesbare Design-Kontexte und Entscheidungen.
-- `assets/` enthält die freigegebenen Dateien. Die enthaltenen Logos sind illustrative Platzhalter.
+- `brand/brand.json` describes who the brand is, how it communicates, which rules apply and which assets exist.
+- `brand/tokens.tokens.json` contains visual values as W3C DTCG design tokens.
+- `brand/DESIGN.md` provides human- and AI-readable design context and decisions.
+- `brand/assets/` contains approved files. The included logos are illustrative placeholders.
+- `brand/evidence/` records sources, screenshots and the provenance of observed or derived values.
 
-## Struktur
+## Repository structure
 
 ```text
 .
@@ -19,86 +20,174 @@ Eine kleine, tool-agnostische Vorlage für ein Brand-Manifest-Repository. Die Vo
 │   ├── brand.json
 │   ├── tokens.tokens.json
 │   ├── DESIGN.md
-│   └── assets/
-│       ├── logo/
-│       │   ├── primary.svg
-│       │   ├── primary-dark.svg
-│       │   ├── mark.svg
-│       │   ├── wordmark.svg
-│       │   └── README.md
-│       ├── fonts/
-│       │   ├── Inter/README.md
-│       │   └── IBM-Plex-Mono/README.md
-│       ├── imagery/README.md
-│       ├── icons/README.md
-│       ├── templates/README.md
+│   ├── assets/
+│   │   ├── logo/
+│   │   │   ├── primary.svg
+│   │   │   ├── primary-dark.svg
+│   │   │   ├── mark.svg
+│   │   │   ├── wordmark.svg
+│   │   │   └── README.md
+│   │   ├── fonts/
+│   │   │   ├── Inter/README.md
+│   │   │   └── IBM-Plex-Mono/README.md
+│   │   ├── imagery/README.md
+│   │   ├── icons/README.md
+│   │   ├── templates/README.md
+│   │   └── README.md
+│   └── evidence/
 │       └── README.md
-└── scripts/
-    └── validate_manifest.py
+├── scripts/
+│   └── validate_manifest.py
+└── skills/
+    └── brand-manifest/
+        ├── SKILL.md
+        └── references/
+            ├── manifest-contract.md
+            └── source-playbook.md
 ```
 
-## Schnellstart
+## Quick start
 
-1. Die Beispielmarke in `brand/brand.json` durch die eigene Marke ersetzen.
-2. Primitive und semantische Werte in `brand/tokens.tokens.json` anpassen.
-3. Die Logo-Platzhalter durch freigegebene Assets ersetzen.
-4. `brand/DESIGN.md` als kurze, konkrete Design- und AI-Anleitung bearbeiten.
-5. Manifest und Referenzen prüfen:
+1. Replace the example brand in `brand/brand.json` with your own brand.
+2. Adjust primitive and semantic values in `brand/tokens.tokens.json`.
+3. Replace the logo placeholders with approved assets.
+4. Edit `brand/DESIGN.md` as a concise design and AI guide.
+5. Validate the manifest and its references:
 
    ```sh
    make validate
    ```
 
-   oder direkt:
+   Or run the validator directly:
 
    ```sh
    python3 scripts/validate_manifest.py
    ```
 
-Der Validator benötigt keine externen Python-Pakete. Er prüft JSON-Struktur, DTCG-Token-Referenzen, bekannte Token-Typen, Alias-Zyklen, Brand-Token-Referenzen und referenzierte Asset-Pfade.
+The validator has no external Python dependencies. It checks JSON structure, DTCG token references, known token types, alias cycles, brand-token references and referenced asset paths. If the optional `jsonschema` package is installed, the JSON Schemas are validated as well.
 
-## Regeln für die Weiterentwicklung
+## Development rules
 
-### Eine Quelle für visuellen Wert
+### One source of truth for visual values
 
-`brand.json` speichert keine visuellen Farbwerte, Schriftgrößen oder Abstände. Stattdessen referenziert es DTCG-Pfade:
+`brand.json` does not store visual color values, font sizes or spacing values. It references DTCG paths instead:
 
 ```json
 "primary": "color.brand.primary"
 ```
 
-Der Wert selbst gehört ausschließlich in `tokens.tokens.json`. Dadurch können die Markenidentität und die visuelle Oberfläche unabhängig weiterentwickelt werden.
+The value itself belongs in `tokens.tokens.json`. This keeps brand identity and visual implementation independently evolvable.
 
-### Semantik und Primitive trennen
+### Separate semantics and primitives
 
-- `color.brand.*` beschreibt die Farbwelt der Marke.
-- `color.semantic.*` beschreibt die Bedeutung im Interface.
-- `spacing.*`, `radius.*` und `border.*` sind visuelle Primitive.
-- `typography.*` und `shadow.*` bündeln zusammengehörige Entscheidungen.
+- `color.brand.*` describes the brand's color world.
+- `color.semantic.*` describes intent in an interface.
+- `spacing.*`, `radius.*` and `border.*` are visual primitives.
+- `typography.*` and `shadow.*` group related decisions.
 
-`color.brand.primary` und `color.semantic.primary` sollten nicht automatisch identisch sein. Die semantische Ebene darf sich ändern, ohne die Markenfarbe zu ändern.
+`color.brand.primary` and `color.semantic.primary` do not need to be identical. The semantic layer may change without changing the brand color.
 
-### Keine UI-Implementierung im Manifest
+### Keep UI implementation out of the manifest
 
-Das Manifest enthält keine Buttons, CSS-Klassen, React-Komponenten oder Framework-Konfiguration. Es beschreibt Entscheidungen und referenziert Assets; die konkrete Umsetzung bleibt bei der jeweiligen Plattform.
+The manifest does not contain buttons, CSS classes, React components or framework configuration. It describes decisions and references assets; each platform remains responsible for implementation.
 
-### Assets sind Verträge
+### Treat assets as contracts
 
-Nur freigegebene Assets unter `brand/assets/` verwenden. Dateinamen und Varianten in `brand.json` müssen mit der Asset-Struktur übereinstimmen. Bei Logos insbesondere Clear Space, Mindestgröße und Farbregeln beachten.
+Use only approved assets under `brand/assets/`. File names and variants in `brand.json` must match the asset structure. For logos, observe clear space, minimum sizes and color rules.
 
-## AI-Kontext
+## AI context
 
-Ein Agent sollte die Dateien in dieser Reihenfolge laden:
+An agent should load the files in this order:
 
-1. `brand/brand.json` für Identität, Voice, Regeln und Governance.
-2. `brand/tokens.tokens.json` für alle visuellen Werte.
-3. `brand/DESIGN.md` für Begründungen, Abwägungen und situative Hinweise.
-4. `brand/assets/` für freigegebene Assets.
+1. `brand/brand.json` for identity, voice, rules and governance.
+2. `brand/tokens.tokens.json` for all visual values.
+3. `brand/DESIGN.md` for rationale, trade-offs and contextual guidance.
+4. `brand/assets/` for approved assets.
+5. `brand/evidence/` for provenance, measurements and open uncertainties.
 
-Bei einem Zielkonflikt gilt: Markenregeln zuerst, dann bestehende Tokens und Assets, danach Kontext, erst danach kreative Interpretation. Neue Farben, Schriften oder Logo-Änderungen sollten nicht stillschweigend erfunden werden.
+When goals conflict, apply this order: brand rules, existing tokens and assets, contextual guidance, then creative interpretation. New colors, fonts or logo changes should never be invented silently.
 
-## Anpassung
+## Skill: `brand-manifest`
 
-Die Datei `brand/brand.json` enthält bewusst englische Schlüsselnamen, da sie als Austauschformat und nicht als lokalisierte Oberfläche gedacht ist. Texte, Voice und Messaging können in jeder unterstützten Sprache gepflegt werden. Für mehrere Sprachvarianten können `brand.locales` erweitert und lokalisierte Dateien als Erweiterung außerhalb des Kernmanifests abgelegt werden.
+This repository also contains the installable `brand-manifest` agent skill. It analyzes a homepage, local web project, PDF, image or other approved brand material and produces a traceable brand manifest.
 
-Lizenz- und Nutzungsrechte für Fonts und Bilder gehören in die jeweiligen Asset-Ordner. Die Beispiel-Assets in diesem Template sind Platzhalter und sollten vor einer Veröffentlichung ersetzt werden.
+### Installation
+
+After the repository is published at `github.com/mheers/brand-manifest`, install the skill with the Skills CLI:
+
+```sh
+npx skills add mheers/brand-manifest --skill brand-manifest
+```
+
+To target OpenCode explicitly:
+
+```sh
+npx skills add mheers/brand-manifest --skill brand-manifest --agent opencode
+```
+
+List the skills available in the repository:
+
+```sh
+npx skills add mheers/brand-manifest --list
+```
+
+For local development, verify discovery with:
+
+```sh
+npx skills add . --list
+```
+
+### Usage
+
+After installation, invoke the skill by name or through a natural-language request:
+
+```text
+/brand-manifest https://example.com ./brand
+```
+
+```text
+/brand-manifest ./docs/brand-guidelines.pdf ./brand
+```
+
+```text
+/brand-manifest ./reference/brand-moodboard.png ./brand
+```
+
+The skill works in five phases:
+
+1. Identify sources, permissions and the output directory.
+2. Inspect the implementation and original source: HTML, CSS, JavaScript, font files, logos, icons, metadata and PDF structure.
+3. Screenshot the rendered page or document pages and measure the visual system.
+4. Convert observations into `brand.json`, `tokens.tokens.json`, `DESIGN.md`, assets and evidence.
+5. Validate references, schemas, assets and the final representation.
+
+### Sources and evidence
+
+For a homepage, implementation data is preferred: exact font families from CSS or font metadata, real logo and icon URLs, theme values, breakpoints and asset manifests. A screenshot is captured in addition to inspect spacing, hierarchy, density, style, mood, contrast and responsive variants.
+
+For PDFs, text, metadata, embedded fonts and images are extracted and representative pages are rendered. For images, dimensions, metadata, OCR, palette and geometry are inspected. An exact font family is asserted only when metadata or an authoritative source establishes it.
+
+Every important claim is classified in `evidence/observations.json` as `exact`, `measured`, `inferred` or `unknown`. This prevents visual guesses from being treated as documented brand facts. Asset provenance, retrieval time, hash and license status are recorded for downloaded files.
+
+The skill creates or updates:
+
+```text
+brand/
+├── brand.json
+├── tokens.tokens.json
+├── DESIGN.md
+├── assets/
+└── evidence/
+    ├── sources.json
+    ├── observations.json
+    ├── notes.md
+    └── screenshots/
+```
+
+Existing manifests are updated incrementally. Unclear identity, licensing or asset conflicts are surfaced instead of being silently overwritten. The detailed workflow and source checklists live in `skills/brand-manifest/SKILL.md` and `skills/brand-manifest/references/`.
+
+## Customization
+
+The keys in `brand/brand.json` are intentionally English because the file is an exchange format rather than a localized interface. Brand copy, voice and messaging can be maintained in any supported language. For multiple language variants, extend `brand.locales` and keep localized files outside the core manifest when appropriate.
+
+Font and image licenses belong in their respective asset directories. The example assets in this template are placeholders and should be replaced before publication.
