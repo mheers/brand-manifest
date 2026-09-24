@@ -37,11 +37,12 @@ brand/
 └── evidence/
     ├── sources.json
     ├── observations.json
+    ├── font-manifest.json
     ├── notes.md
     └── screenshots/
 ```
 
-`brand.json` is the semantic source of truth for identity, voice, rules, assets and AI behavior. `tokens.tokens.json` is the source of truth for visual values. `DESIGN.md` explains rationale and context. Evidence is supporting material and must not become a second copy of the normative token values.
+`brand.json` is the semantic source of truth for identity, voice, rules, assets and AI behavior. `tokens.tokens.json` is the source of truth for visual values. `DESIGN.md` explains rationale and context. Evidence is supporting material and must not become a second copy of the normative token values. The font handoff in `evidence/font-manifest.json` is the boundary between brand analysis and font installation.
 
 Read `references/manifest-contract.md` before writing or merging files. Read `references/source-playbook.md` for source-specific extraction commands and browser/PDF/image procedures.
 
@@ -66,7 +67,8 @@ For every source:
 3. Capture the raw facts needed for the manifest: names, copy, metadata, CSS declarations, font declarations, asset URLs, page structure, colors, dimensions and document properties.
 4. Save screenshots or rendered pages when they provide information that source text cannot: composition, hierarchy, mood, spacing, visual treatment and responsive behavior.
 5. Mark each observation as `exact`, `measured`, `inferred` or `unknown` using the definitions in `references/manifest-contract.md`.
-6. Keep source excerpts short and relevant. Do not store credentials, cookies, tokens or unnecessary copyrighted source documents.
+6. Create or update `evidence/font-manifest.json` for every discovered font. Include family, style, weight, file path, source, checksum, license and usage status; mark incomplete or subsetted fonts appropriately.
+7. Keep source excerpts short and relevant. Do not store credentials, cookies, tokens or unnecessary copyrighted source documents.
 
 Use the branch playbook in `references/source-playbook.md`:
 
@@ -114,9 +116,10 @@ Use screenshots and rendered pages to describe spacing, hierarchy, density, comp
 2. Write `brand.json` with token paths, not duplicated visual values. Link logo minimum sizes, icon stroke width and other visual constraints to tokens when the schema supports it.
 3. Write `tokens.tokens.json` using DTCG group, token, `$type`, `$value` and alias conventions. Include `$description` for non-obvious measured or estimated values.
 4. Put downloaded or extracted assets under `assets/` with stable, descriptive names. Keep the original URL/path, license status and hash in evidence. Avoid hotlinks and avoid copying third-party assets without a clear right to do so.
-5. Write `DESIGN.md` with the observed design language, rationale, accessibility considerations, do/don't guidance and AI instructions. State when a recommendation is inferred rather than documented.
-6. Add `$extensions` only for non-standard metadata that consumers must preserve. Do not put implementation code or UI components in the manifest.
-7. Record conflicts in `evidence/notes.md` and choose the best-supported value. Ask the user before resolving an identity or licensing conflict silently.
+5. Keep `evidence/font-manifest.json` synchronized with the font files and their usage status so the `brand-fonts` skill can consume it safely.
+6. Write `DESIGN.md` with the observed design language, rationale, accessibility considerations, do/don't guidance and AI instructions. State when a recommendation is inferred rather than documented.
+7. Add `$extensions` only for non-standard metadata that consumers must preserve. Do not put implementation code or UI components in the manifest.
+8. Record conflicts in `evidence/notes.md` and choose the best-supported value. Ask the user before resolving an identity or licensing conflict silently.
 
 **Done when:** the three normative files exist, every token reference resolves, every referenced asset exists, and all non-obvious claims have an evidence record.
 
@@ -143,6 +146,7 @@ Also verify:
 - screenshots show the states used for the visual claims;
 - the manifest does not claim exactness for an inferred value;
 - licensing and provenance notes exist for every downloaded asset;
+- the font handoff identifies approved, reference-only, unknown and restricted fonts;
 - generated text follows the extracted voice and does not introduce unsupported claims.
 
 If a check fails, fix the manifest or explain why the source cannot support a valid value. Never hide a validation failure by deleting the evidence or weakening the schema.
@@ -173,5 +177,6 @@ The skill is complete only when:
 - [ ] `brand.json`, `tokens.tokens.json` and `DESIGN.md` are valid or explicitly reported as blocked.
 - [ ] Every important claim is marked exact, measured, inferred or unknown in evidence.
 - [ ] Downloaded assets have provenance and a usage-status note.
+- [ ] `evidence/font-manifest.json` contains a usable handoff for every discovered font.
 - [ ] Token references, asset paths and schemas validate.
 - [ ] The final report names remaining uncertainties instead of presenting guesses as facts.

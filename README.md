@@ -35,10 +35,15 @@ A small, tool-agnostic template for a brand-manifest repository. It separates **
 │   │   ├── templates/README.md
 │   │   └── README.md
 │   └── evidence/
-│       └── README.md
+│       ├── README.md
+│       └── font-manifest.json
 ├── scripts/
 │   └── validate_manifest.py
 └── skills/
+    ├── brand-fonts/
+    │   ├── SKILL.md
+    │   └── references/
+    │       └── platforms.md
     └── brand-manifest/
         ├── SKILL.md
         └── references/
@@ -104,6 +109,7 @@ An agent should load the files in this order:
 3. `brand/DESIGN.md` for rationale, trade-offs and contextual guidance.
 4. `brand/assets/` for approved assets.
 5. `brand/evidence/` for provenance, measurements and open uncertainties.
+6. `brand/evidence/font-manifest.json` when installing or integrating fonts.
 
 When goals conflict, apply this order: brand rules, existing tokens and assets, contextual guidance, then creative interpretation. New colors, fonts or logo changes should never be invented silently.
 
@@ -123,6 +129,12 @@ To target OpenCode explicitly:
 
 ```sh
 npx skills add mheers/brand-manifest --skill brand-manifest --agent opencode
+```
+
+Install both repository skills:
+
+```sh
+npx skills add mheers/brand-manifest --skill brand-manifest --skill brand-fonts
 ```
 
 List the skills available in the repository:
@@ -180,11 +192,71 @@ brand/
 └── evidence/
     ├── sources.json
     ├── observations.json
+    ├── font-manifest.json
     ├── notes.md
     └── screenshots/
 ```
 
 Existing manifests are updated incrementally. Unclear identity, licensing or asset conflicts are surfaced instead of being silently overwritten. The detailed workflow and source checklists live in `skills/brand-manifest/SKILL.md` and `skills/brand-manifest/references/`.
+
+## Skill: `brand-fonts`
+
+The `brand-fonts` skill is the installation and integration companion to `brand-manifest`. It consumes `brand/evidence/font-manifest.json`, validates font metadata and license status, and installs or stages fonts only for an explicitly selected target.
+
+### Installation
+
+Install it from the published repository:
+
+```sh
+npx skills add mheers/brand-manifest --skill brand-fonts
+```
+
+For local development in this repository:
+
+```sh
+npx skills add . --skill brand-fonts --agent opencode -y
+```
+
+### Usage
+
+Integrate approved webfonts into a project:
+
+```text
+/brand-fonts ./brand --target web --project ./my-app
+```
+
+Install approved fonts for the current user:
+
+```text
+/brand-fonts ./brand --target system
+```
+
+Stage fonts for a design tool:
+
+```text
+/brand-fonts ./brand --target design --output ./design-fonts
+```
+
+The target is always explicit. The skill does not install fonts into the operating system by default.
+
+### How it works
+
+1. Read `font-manifest.json` and the typography metadata in `brand.json`.
+2. Validate each font's family, style, weight, format, checksum, source and license.
+3. Inspect the target project's existing font configuration.
+4. Copy only approved files, preserving names and metadata.
+5. Run target-specific validation.
+6. Write the result to `brand/evidence/font-installation.json`.
+
+The skill supports three targets:
+
+- `web`: copy local font files and create or update `@font-face` integration;
+- `system`: install to the current user's font directory after explicit confirmation;
+- `design`: create a checksum-backed staging directory and inventory for manual or supported-tool import.
+
+Unknown, restricted, reference-only and PDF-subset fonts are staged for review or skipped. A font being visible on a homepage does not by itself grant redistribution rights. System-wide installation, `sudo`, overwriting existing fonts and hosted design-tool uploads are never performed silently.
+
+The detailed target procedures and font metadata checks are in `skills/brand-fonts/SKILL.md` and `skills/brand-fonts/references/platforms.md`.
 
 ## Customization
 

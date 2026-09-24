@@ -18,6 +18,7 @@ brand/
 └── evidence/
     ├── sources.json
     ├── observations.json
+    ├── font-manifest.json
     ├── notes.md
     └── screenshots/
 ```
@@ -139,6 +140,35 @@ Use these statuses consistently:
 | `unknown` | Not established by the available sources. |
 
 Do not put a guessed value in an `exact` observation. If a field is required by the schema but unknown, ask the user or preserve the existing value and record the blocker.
+
+## Font handoff
+
+`evidence/font-manifest.json` is the machine-readable handoff between brand extraction and font installation. It is not a second typography token file. Each entry should contain:
+
+```json
+{
+  "family": "Inter",
+  "style": "Regular",
+  "weight": 400,
+  "files": [
+    "assets/fonts/Inter/inter-regular.woff2"
+  ],
+  "source": "https://example.com/fonts/inter-regular.woff2",
+  "license": "OFL-1.1",
+  "status": "approved",
+  "sha256": "...",
+  "notes": "First-party webfont; verify the complete license before redistribution"
+}
+```
+
+Use one of these usage statuses:
+
+- `approved`: the intended installation or integration is permitted by the recorded license or owner approval;
+- `reference-only`: useful for comparison or design reference but not approved for the requested integration;
+- `unknown`: the file or rights could not be verified;
+- `restricted`: the recorded terms prohibit the intended use.
+
+Record missing metadata as unknown rather than guessing. A PDF-embedded subset is normally `reference-only` until a complete, reusable font and its rights are established.
 
 ## Asset rules
 
