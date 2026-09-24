@@ -14,7 +14,7 @@ Install or integrate fonts from a brand repository without losing provenance, me
 
 - Read `brand/evidence/font-manifest.json` first. If it is absent or empty, inspect `brand/brand.json` and `brand/assets/fonts/`, create the handoff, and mark derived entries as provisional.
 - Install only fonts whose usage status is `approved`, unless the user explicitly confirms a different legally permitted action.
-- Keep `reference-only`, `unknown` and `restricted` fonts out of system and production web integration. Stage them for review when useful.
+- Keep `reference-only`, `unknown`, `restricted` and `owner-provided` fonts out of system and production web integration unless a separate license and target decision explicitly approves them. Stage them for review when useful.
 - A font downloaded from a webpage is not automatically redistributable. Preserve its source URL, license and checksum.
 - Treat PDF-embedded or subset fonts as reference material unless the user confirms that the complete font and redistribution rights are available.
 - Copy files; do not move or rename the originals. Preserve family, style, weight and metadata in filenames and reports.
@@ -47,7 +47,7 @@ The report contains the selected target, source files, license status, checksums
 2. Validate that each file exists, is a supported font format and has a stable checksum.
 3. Inspect metadata with available tools such as `fontTools`/`ttx`, `fc-scan` or `otfinfo`. Record family, subfamily, full name, PostScript name, weight, style, format, axes and embedding restrictions.
 4. Compare the metadata with the handoff and the typography fields in `brand.json`. Treat a mismatch as a conflict to report, not as a reason to rewrite metadata silently.
-5. Check the license and usage status. Mark incomplete, subsetted or unverifiable fonts as `reference-only` or `unknown`.
+5. Check the license and usage status. Treat `owner-provided` as copied under the manifest owner's invocation, not as independent proof of a production license. Mark incomplete, subsetted or unverifiable fonts as `reference-only` or `unknown`.
 6. Create or update `evidence/font-manifest.json` when the handoff is missing or incomplete. Use `inferred` or `provisional` notes for facts that are not directly established by the source.
 
 **Done when:** every candidate font has a file, checksum, metadata record, license status and integration decision.

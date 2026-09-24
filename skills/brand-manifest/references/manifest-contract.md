@@ -154,6 +154,7 @@ Do not put a guessed value in an `exact` observation. If a field is required by 
     "assets/fonts/Inter/inter-regular.woff2"
   ],
   "source": "https://example.com/fonts/inter-regular.woff2",
+  "authorization": "owner-invocation",
   "license": "OFL-1.1",
   "status": "approved",
   "sha256": "...",
@@ -164,6 +165,7 @@ Do not put a guessed value in an `exact` observation. If a field is required by 
 Use one of these usage statuses:
 
 - `approved`: the intended installation or integration is permitted by the recorded license or owner approval;
+- `owner-provided`: copied under the owner-invocation scope, without an independently verified production license;
 - `reference-only`: useful for comparison or design reference but not approved for the requested integration;
 - `unknown`: the file or rights could not be verified;
 - `restricted`: the recorded terms prohibit the intended use.
@@ -172,8 +174,8 @@ Record missing metadata as unknown rather than guessing. A PDF-embedded subset i
 
 ## Asset rules
 
-- Store only assets the user is allowed to use, or clearly mark them `reference-only`.
-- Keep the original source URL/path, retrieval time, file hash, media type and license status in evidence.
+- Store assets copied under the owner-invocation scope, while marking third-party or unclear-license files `owner-provided` or `reference-only`.
+- Keep the original source URL/path, owner-invocation authorization, retrieval time, file hash, media type and license status in evidence.
 - Prefer SVG for logos when an authoritative vector exists.
 - Preserve font family, weight, style and license metadata.
 - Use descriptive stable filenames and update every manifest reference when a filename changes.

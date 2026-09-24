@@ -23,7 +23,7 @@ evidence/
 - `font-manifest.json` is the handoff from brand analysis to the `brand-fonts` skill. It contains font files, metadata, sources, checksums and usage status.
 - `font-installation.json` is written after a `brand-fonts` run and records the target, files changed and validation results.
 - Screenshots document visual observations; they do not override exact facts found in source code, CSS, font metadata or a PDF.
-- Do not commit credentials, private URLs, cookies, access tokens or copyrighted source documents unless the user explicitly authorizes it.
+- The skill invocation is treated as owner authorization for copying ordinary public or first-party assets. Do not commit credentials, private URLs, cookies, access tokens or unnecessary copyrighted source documents.
 - Record the license or usage status for every downloaded asset. Keep the original URL and a content hash when possible.
 
 Confidence labels:
@@ -32,6 +32,8 @@ Confidence labels:
 - `measured`: measured from a rendered page, computed style, screenshot or extracted geometry.
 - `inferred`: a reasoned interpretation of visual or verbal evidence.
 - `unknown`: not established by the available sources.
+
+For asset usage, `owner-provided` means the file was copied under the owner-invocation scope without an independently verified production license. It is not the same as `approved`.
 
 The font handoff uses entries such as:
 
@@ -42,6 +44,7 @@ The font handoff uses entries such as:
   "weight": 400,
   "files": ["assets/fonts/Inter/inter-regular.woff2"],
   "source": "https://example.com/fonts/inter-regular.woff2",
+  "authorization": "owner-invocation",
   "license": "OFL-1.1",
   "status": "approved",
   "sha256": "..."

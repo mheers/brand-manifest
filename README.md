@@ -98,7 +98,7 @@ The manifest does not contain buttons, CSS classes, React components or framewor
 
 ### Treat assets as contracts
 
-Use only approved assets under `brand/assets/`. File names and variants in `brand.json` must match the asset structure. For logos, observe clear space, minimum sizes and color rules.
+The `brand-manifest` skill treats invocation by the homepage owner or operator as authorization to copy ordinary public or first-party assets without per-asset permission prompts. It still records provenance, checksums and usage status. Third-party or unclear-license assets are copied as `owner-provided` or `reference-only` when technically accessible; they are not presented as independently licensed production assets. File names and variants in `brand.json` must match the asset structure. For logos, observe clear space, minimum sizes and color rules.
 
 ## AI context
 
@@ -167,11 +167,12 @@ After installation, invoke the skill by name or through a natural-language reque
 
 The skill works in five phases:
 
-1. Identify sources, permissions and the output directory.
+1. Identify sources, the owner-invocation authorization boundary and the output directory.
 2. Inspect the implementation and original source: HTML, CSS, JavaScript, font files, logos, icons, metadata and PDF structure.
 3. Screenshot the rendered page or document pages and measure the visual system.
-4. Convert observations into `brand.json`, `tokens.tokens.json`, `DESIGN.md`, assets and evidence.
-5. Validate references, schemas, assets and the final representation.
+4. Copy eligible assets without per-asset permission prompts, while recording provenance and usage status.
+5. Convert observations into `brand.json`, `tokens.tokens.json`, `DESIGN.md`, assets and evidence.
+6. Validate references, schemas, assets and the final representation.
 
 ### Sources and evidence
 
@@ -179,7 +180,7 @@ For a homepage, implementation data is preferred: exact font families from CSS o
 
 For PDFs, text, metadata, embedded fonts and images are extracted and representative pages are rendered. For images, dimensions, metadata, OCR, palette and geometry are inspected. An exact font family is asserted only when metadata or an authoritative source establishes it.
 
-Every important claim is classified in `evidence/observations.json` as `exact`, `measured`, `inferred` or `unknown`. This prevents visual guesses from being treated as documented brand facts. Asset provenance, retrieval time, hash and license status are recorded for downloaded files.
+Every important claim is classified in `evidence/observations.json` as `exact`, `measured`, `inferred` or `unknown`. Ordinary public or first-party assets are copied automatically under the owner-invocation scope; third-party or unclear-license assets are marked `owner-provided` or `reference-only`. This prevents visual guesses from being treated as documented brand facts. Asset provenance, retrieval time, hash and license status are recorded for downloaded files.
 
 The skill creates or updates:
 
@@ -197,7 +198,7 @@ brand/
     └── screenshots/
 ```
 
-Existing manifests are updated incrementally. Unclear identity, licensing or asset conflicts are surfaced instead of being silently overwritten. The detailed workflow and source checklists live in `skills/brand-manifest/SKILL.md` and `skills/brand-manifest/references/`.
+Existing manifests are updated incrementally. Ordinary eligible assets are copied without per-asset permission prompts. Unclear identity, licensing or asset conflicts are surfaced instead of being silently overwritten. The detailed workflow and source checklists live in `skills/brand-manifest/SKILL.md` and `skills/brand-manifest/references/`.
 
 ## Skill: `brand-fonts`
 
@@ -254,7 +255,7 @@ The skill supports three targets:
 - `system`: install to the current user's font directory after explicit confirmation;
 - `design`: create a checksum-backed staging directory and inventory for manual or supported-tool import.
 
-Unknown, restricted, reference-only and PDF-subset fonts are staged for review or skipped. A font being visible on a homepage does not by itself grant redistribution rights. System-wide installation, `sudo`, overwriting existing fonts and hosted design-tool uploads are never performed silently.
+Unknown, restricted, reference-only, owner-provided and PDF-subset fonts are staged for review or skipped by `brand-fonts` for system and production integration. This does not trigger per-asset prompts during `brand-manifest` copying, but it keeps installation and licensing decisions separate. A font being visible on a homepage does not by itself grant redistribution rights. System-wide installation, `sudo`, overwriting existing fonts and hosted design-tool uploads are never performed silently.
 
 The detailed target procedures and font metadata checks are in `skills/brand-fonts/SKILL.md` and `skills/brand-fonts/references/platforms.md`.
 

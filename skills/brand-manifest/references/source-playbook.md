@@ -13,6 +13,7 @@ For every source, create a record with:
   "location": "https://example.com/",
   "retrievedAt": "2026-01-01T12:00:00Z",
   "access": "public",
+  "authorization": "owner-invocation",
   "owner": "Example, Inc.",
   "revision": "HTML response hash or document version when available",
   "notes": "Desktop and mobile captures"
@@ -64,7 +65,7 @@ curl -L --fail --silent --show-error 'https://example.com/' -o /tmp/brand-homepa
 rg -n -i 'font-face|font-family|logo|icon|stylesheet|manifest|theme-color' /tmp/brand-homepage.html
 ```
 
-Resolve relative CSS, image and font URLs against the final response URL. Follow only same-origin or explicitly authorized asset hosts unless the user asks for a broader crawl.
+Resolve relative CSS, image and font URLs against the final response URL. Follow same-origin or owner-authorized asset hosts as part of the invocation; do not broaden the crawl to unrelated hosts without a source relationship.
 
 ### 2. Capture rendered states
 
@@ -78,18 +79,20 @@ For each screenshot, record viewport, device scale factor, page state, URL and c
 
 Do not treat a loading skeleton, cookie banner, consent overlay, error state or third-party widget as the brand's core visual language unless it is part of the intended experience.
 
-### 3. Recover and download assets safely
+### 3. Recover and copy assets automatically
 
-Prioritize first-party assets and assets whose license is explicit. Before downloading, record:
+Treat invocation by the homepage owner or operator as authorization to analyze and copy ordinary, publicly reachable first-party assets. Do not ask for a separate confirmation for each download. Record provenance and usage status while copying. This authorization does not grant rights to third-party assets and does not permit bypassing access controls, credentials, CAPTCHAs, paywalls or privacy controls.
+
+Prioritize first-party assets and assets whose license is explicit. Before copying, record:
 
 - canonical URL or local path;
 - referring HTML/CSS/component locator;
 - media type and file size;
 - whether the asset is a logo, icon, photograph, font or other resource;
-- license or usage status;
+- license or usage status (`owner-provided` when copied under invocation without an independently verified license);
 - SHA-256 hash after download.
 
-Use stable local names such as `logo-primary.svg`, `icon-search.svg` or `font-inter-regular.woff2`. Keep the original source URL in evidence. Do not rename a font file in a way that hides its family, weight or license. Do not copy a third-party logo merely because it appears in a search result or social preview.
+Use stable local names such as `logo-primary.svg`, `icon-search.svg` or `font-inter-regular.woff2`. Keep the original source URL and owner-invocation authorization in evidence. Copy third-party resources when technically accessible for the owner's analysis, but mark them `owner-provided` or `reference-only` and do not present them as independently licensed production assets. Do not rename a font file in a way that hides its family, weight or license. Do not copy a third-party logo merely because it appears in a search result or social preview.
 
 A typical download-and-record flow is:
 
@@ -131,7 +134,7 @@ PDFs often contain the most reliable identity copy but may flatten or subset fon
 3. List embedded fonts and images. A font name reported by the PDF is stronger evidence than a visual guess; a subset font still establishes the source document's declared face.
 4. Render representative pages at a consistent DPI. Capture the cover, a content page, a typography specimen, a logo/asset page and a page with imagery or components.
 5. Inspect color usage, page grid, margins, type scale, logo clear space and image treatment. Distinguish printed CMYK/RGB values from screen estimates.
-6. Extract logos and imagery only when the document's terms permit it. Otherwise record their page/location and download only a permitted source asset.
+6. Extract logos and imagery into evidence or the asset set when technically accessible under the owner-invocation scope. Mark embedded or third-party files `reference-only` unless the terms or owner authorization establish production reuse.
 
 Typical read-only tools, when installed, are `pdfinfo`, `pdftotext -layout`, `pdffonts`, `pdfimages -list` and `pdftoppm`. If a tool is unavailable, use an available PDF reader and record the limitation.
 
@@ -153,11 +156,12 @@ A single image can describe a visual direction, but it cannot establish mission,
 For each asset, record one of:
 
 - `approved`: the source or owner explicitly permits the intended use;
-- `reference-only`: retained for analysis but not copied into the production asset set;
+- `owner-provided`: copied under the owner-invocation scope, without an independently verified production license;
+- `reference-only`: retained for analysis but not approved for production use;
 - `unknown`: rights or provenance could not be established;
 - `restricted`: the source terms prohibit the intended use.
 
-An image's presence on a homepage is evidence of usage, not a license grant. Keep a short license note next to the evidence and avoid hotlinking production assets.
+An image's presence on a homepage is evidence of usage, not an independent license grant. Owner invocation authorizes the copy for this analysis run, while the evidence record still distinguishes `approved`, `owner-provided` and `reference-only` assets. Keep a short license note next to the evidence and avoid hotlinking production assets.
 
 ## When tools disagree
 
