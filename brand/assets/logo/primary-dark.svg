@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-labelledby="title desc">
+  <title id="title">Acme logo on dark background</title>
+  <desc id="desc">Illustrative Acme horizontal logo for dark backgrounds.</desc>
+  <rect width="320" height="80" rx="12" fill="#171C29"/>
+  <rect x="8" y="8" width="64" height="64" rx="12" fill="#1A4DCC"/>
+  <path d="M22 61 40 19l18 42h-8l-4-9H34l-4 9h-8Zm15-17h7l-3.5-12-3.5 12Z" fill="#FFFFFF"/>
+  <text x="96" y="52" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="-1">ACME</text>
+</svg>

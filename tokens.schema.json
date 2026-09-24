@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/brand-manifest/tokens.schema.json",
+  "title": "DTCG-compatible design token profile",
+  "description": "Structural JSON Schema for the token groups used by this template. The accompanying validator checks token value shapes and reference resolution in addition to this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "$description": {
+      "type": "string"
+    },
+    "$type": {
+      "$ref": "#/$defs/type"
+    },
+    "$extensions": {
+      "type": "object"
+    },
+    "$deprecated": {
+      "$ref": "#/$defs/deprecated"
+    }
+  },
+  "patternProperties": {
+    "^(?!\\$)[^{}.]+$": {
+      "$ref": "#/$defs/node"
+    }
+  },
+  "$defs": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "color",
+        "dimension",
+        "fontFamily",
+        "fontWeight",
+        "duration",
+        "cubicBezier",
+        "number",
+        "strokeStyle",
+        "border",
+        "transition",
+        "shadow",
+        "gradient",
+        "typography"
+      ]
+    },
+    "deprecated": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "reference": {
+      "type": "string",
+      "pattern": "^\\{[^{}]+\\}$"
+    },
+    "node": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/token"
+        },
+        {
+          "$ref": "#/$defs/group"
+        }
+      ]
+    },
+    "token": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "$value"
+      ],
+      "properties": {
+        "$value": {},
+        "$type": {
+          "$ref": "#/$defs/type"
+        },
+        "$description": {
+          "type": "string"
+        },
+        "$extensions": {
+          "type": "object"
+        },
+        "$deprecated": {
+          "$ref": "#/$defs/deprecated"
+        },
+        "$ref": {
+          "type": "string"
+        }
+      }
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "$description": {
+          "type": "string"
+        },
+        "$type": {
+          "$ref": "#/$defs/type"
+        },
+        "$extensions": {
+          "type": "object"
+        },
+        "$deprecated": {
+          "$ref": "#/$defs/deprecated"
+        },
+        "$extends": {
+          "$ref": "#/$defs/reference"
+        },
+        "$root": {
+          "$ref": "#/$defs/token"
+        }
+      },
+      "patternProperties": {
+        "^(?!\\$)[^{}.]+$": {
+          "$ref": "#/$defs/node"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "$schema": "../brand.schema.json",
+  "version": "1.0.0",
+  "brand": {
+    "id": "acme",
+    "name": "Acme",
+    "legalName": "Acme GmbH",
+    "description": "A modern technology company building simple tools for complex work.",
+    "url": "https://example.com",
+    "locale": "en",
+    "locales": [
+      "en",
+      "de"
+    ],
+    "industry": "technology",
+    "audience": {
+      "primary": [
+        "technical decision makers",
+        "software developers",
+        "technology leaders"
+      ],
+      "secondary": [
+        "business users"
+      ]
+    }
+  },
+  "identity": {
+    "mission": "Make complex technology feel simple.",
+    "vision": "A world where powerful technology is accessible to everyone.",
+    "values": [
+      {
+        "id": "simplicity",
+        "name": "Simplicity",
+        "description": "Remove unnecessary complexity."
+      },
+      {
+        "id": "craft",
+        "name": "Craft",
+        "description": "Care deeply about quality and details."
+      },
+      {
+        "id": "openness",
+        "name": "Openness",
+        "description": "Prefer transparent and interoperable solutions."
+      }
+    ],
+    "personality": [
+      "confident",
+      "clear",
+      "modern",
+      "technical",
+      "human"
+    ],
+    "avoidPersonality": [
+      "corporate",
+      "arrogant",
+      "playful-for-the-sake-of-playfulness",
+      "overly-salesy"
+    ]
+  },
+  "logo": {
+    "primary": {
+      "asset": "assets/logo/primary.svg",
+      "description": "Primary horizontal logo."
+    },
+    "variants": [
+      {
+        "id": "dark",
+        "asset": "assets/logo/primary-dark.svg",
+        "background": "dark"
+      },
+      {
+        "id": "mark",
+        "asset": "assets/logo/mark.svg",
+        "usage": "square contexts"
+      },
+      {
+        "id": "wordmark",
+        "asset": "assets/logo/wordmark.svg",
+        "usage": "horizontal contexts"
+      }
+    ],
+    "clearSpace": {
+      "token": "logo.clear-space"
+    },
+    "minimumSize": {
+      "digital": {
+        "token": "logo.min-size.digital"
+      },
+      "print": {
+        "token": "logo.min-size.print"
+      }
+    },
+    "rules": {
+      "allowed": [
+        "use approved logo variants",
+        "maintain clear space",
+        "use approved backgrounds"
+      ],
+      "forbidden": [
+        "stretch",
+        "rotate",
+        "change colors",
+        "add effects",
+        "recreate the logo",
+        "place on low-contrast backgrounds"
+      ]
+    }
+  },
+  "typography": {
+    "primaryFont": {
+      "family": "Inter",
+      "token": "font.family.primary",
+      "source": "assets/fonts/",
+      "license": "OFL-1.1"
+    },
+    "secondaryFont": {
+      "family": "IBM Plex Mono",
+      "token": "font.family.mono",
+      "source": "assets/fonts/",
+      "license": "OFL-1.1"
+    },
+    "roles": {
+      "display": "typography.display",
+      "heading": "typography.heading",
+      "body": "typography.body",
+      "caption": "typography.caption",
+      "code": "typography.code"
+    },
+    "rules": {
+      "do": [
+        "Use the primary font for all general communication.",
+        "Use the monospace font for technical or data-oriented content."
+      ],
+      "dont": [
+        "Use decorative fonts.",
+        "Use more than two font families."
+      ]
+    }
+  },
+  "color": {
+    "primary": "color.brand.primary",
+    "secondary": "color.brand.secondary",
+    "accent": "color.brand.accent",
+    "semantic": {
+      "background": "color.semantic.background",
+      "surface": "color.semantic.surface",
+      "text": "color.semantic.text",
+      "mutedText": "color.semantic.text-muted",
+      "success": "color.semantic.success",
+      "warning": "color.semantic.warning",
+      "error": "color.semantic.error"
+    },
+    "rules": {
+      "do": [
+        "Use the primary color for brand recognition.",
+        "Use accent color sparingly."
+      ],
+      "dont": [
+        "Introduce unapproved brand colors.",
+        "Use accent colors as large background areas."
+      ]
+    }
+  },
+  "imagery": {
+    "style": {
+      "keywords": [
+        "authentic",
+        "natural",
+        "documentary",
+        "human",
+        "editorial"
+      ],
+      "avoid": [
+        "generic stock photography",
+        "overly staged scenes",
+        "fake corporate handshakes",
+        "excessive AI-generated imagery"
+      ]
+    },
+    "composition": {
+      "preferred": [
+        "negative space",
+        "strong subject",
+        "natural lighting",
+        "simple backgrounds"
+      ],
+      "avoid": [
+        "visual clutter",
+        "overly symmetrical compositions"
+      ]
+    },
+    "colorTreatment": {
+      "preferred": [
+        "natural colors",
+        "subtle brand color accents"
+      ],
+      "avoid": [
+        "heavy filters",
+        "oversaturation"
+      ]
+    }
+  },
+  "iconography": {
+    "style": "minimal-line",
+    "strokeWidth": "icon.stroke-width",
+    "cornerStyle": "rounded",
+    "filledIcons": false,
+    "rules": {
+      "do": [
+        "Use a consistent stroke width.",
+        "Prefer simple recognizable shapes."
+      ],
+      "dont": [
+        "Mix icon styles.",
+        "Use decorative icons without functional meaning."
+      ]
+    }
+  },
+  "voice": {
+    "description": "Clear, intelligent and approachable.",
+    "traits": [
+      {
+        "trait": "clear",
+        "description": "Prefer simple language over jargon."
+      },
+      {
+        "trait": "confident",
+        "description": "Make statements directly and avoid unnecessary hedging."
+      },
+      {
+        "trait": "human",
+        "description": "Write like a knowledgeable person, not a corporation."
+      }
+    ],
+    "tone": {
+      "default": "confident and approachable",
+      "contexts": {
+        "marketing": "inspiring but restrained",
+        "documentation": "precise and practical",
+        "support": "helpful and empathetic",
+        "technical": "direct and rigorous",
+        "social": "conversational and concise"
+      }
+    },
+    "language": {
+      "prefer": [
+        "short sentences",
+        "active voice",
+        "concrete language",
+        "specific claims"
+      ],
+      "avoid": [
+        "marketing clichés",
+        "unnecessary superlatives",
+        "corporate buzzwords",
+        "empty claims"
+      ]
+    }
+  },
+  "content": {
+    "messaging": {
+      "tagline": "Complex made simple.",
+      "keyMessages": [
+        "Powerful technology should be understandable.",
+        "Good design removes complexity.",
+        "Open technology creates better ecosystems."
+      ]
+    },
+    "do": [
+      "Explain benefits concretely.",
+      "Show real examples.",
+      "Prefer evidence over hype."
+    ],
+    "dont": [
+      "Promise unrealistic outcomes.",
+      "Use fear-based marketing.",
+      "Pretend technical complexity does not exist."
+    ]
+  },
+  "designPrinciples": [
+    {
+      "id": "clarity",
+      "name": "Clarity",
+      "description": "Every visual element should have a clear purpose."
+    },
+    {
+      "id": "restraint",
+      "name": "Restraint",
+      "description": "Use visual emphasis sparingly."
+    },
+    {
+      "id": "consistency",
+      "name": "Consistency",
+      "description": "Reuse established patterns instead of inventing new ones."
+    }
+  ],
+  "doDont": {
+    "do": [
+      "Maintain generous whitespace.",
+      "Use the token system consistently.",
+      "Prefer hierarchy over decoration.",
+      "Use real imagery where possible."
+    ],
+    "dont": [
+      "Invent new colors.",
+      "Mix unrelated visual styles.",
+      "Overuse shadows or gradients.",
+      "Modify the logo.",
+      "Use arbitrary spacing values."
+    ]
+  },
+  "ai": {
+    "role": "You are a brand-aware design and content assistant.",
+    "instructions": [
+      "Treat this document as the authoritative brand identity.",
+      "Use design tokens instead of inventing visual values.",
+      "Follow logo usage rules exactly.",
+      "Preserve the brand personality in generated text.",
+      "Prefer existing assets over generating replacements.",
+      "When a requested design conflicts with the brand, explain the conflict and propose a compliant alternative."
+    ],
+    "decisionRules": [
+      {
+        "when": "requested_design_conflicts_with_brand",
+        "action": "explain_conflict_and_propose_compliant_alternative"
+      },
+      {
+        "when": "token_exists",
+        "action": "use_token"
+      },
+      {
+        "when": "token_does_not_exist",
+        "action": "ask_or_use_nearest_existing_token"
+      },
+      {
+        "when": "asset_exists",
+        "action": "reuse_asset"
+      }
+    ],
+    "priorities": [
+      "brand rules",
+      "design tokens",
+      "existing assets",
+      "context-specific guidance",
+      "creative interpretation"
+    ],
+    "constraints": {
+      "mayInventNewColors": false,
+      "mayInventNewFonts": false,
+      "mayModifyLogo": false,
+      "mayGenerateImagery": true,
+      "mayGenerateCopy": true
+    },
+    "outputDefaults": {
+      "language": "en",
+      "accessibility": {
+        "wcagTarget": "AA"
+      }
+    }
+  },
+  "assets": {
+    "basePath": "assets/",
+    "logo": [
+      "assets/logo/primary.svg",
+      "assets/logo/primary-dark.svg",
+      "assets/logo/mark.svg",
+      "assets/logo/wordmark.svg"
+    ],
+    "fonts": [
+      "assets/fonts/Inter/",
+      "assets/fonts/IBM-Plex-Mono/"
+    ],
+    "imagery": "assets/imagery/",
+    "icons": "assets/icons/",
+    "templates": "assets/templates/"
+  },
+  "governance": {
+    "owner": "Brand Team",
+    "contact": "brand@example.com",
+    "lastUpdated": "2026-09-24",
+    "reviewCycle": "annual"
+  }
+}

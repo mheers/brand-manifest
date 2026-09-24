@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-labelledby="title desc">
+  <title id="title">Acme mark</title>
+  <desc id="desc">Illustrative Acme mark for square contexts.</desc>
+  <rect width="80" height="80" rx="16" fill="#1A4DCC"/>
+  <path d="M19 61 40 19l21 42h-9l-4-9H32l-4 9h-9Zm16-17h10l-5-12-5 12Z" fill="#FFFFFF"/>
+</svg>

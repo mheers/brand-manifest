@@ -1,0 +1,11 @@
+.DS_Store
+Thumbs.db
+*.log
+
+# Local tooling output
+.cache/
+build/
+dist/
+node_modules/
+__pycache__/
+*.py[cod]

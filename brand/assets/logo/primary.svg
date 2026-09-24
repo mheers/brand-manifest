@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-labelledby="title desc">
+  <title id="title">Acme logo</title>
+  <desc id="desc">Illustrative Acme horizontal logo for the brand manifest template.</desc>
+  <rect width="80" height="80" rx="16" fill="#1A4DCC"/>
+  <path d="M19 61 40 19l21 42h-9l-4-9H32l-4 9h-9Zm16-17h10l-5-12-5 12Z" fill="#FFFFFF"/>
+  <text x="104" y="52" fill="#171C29" font-family="Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="-1">ACME</text>
+</svg>
